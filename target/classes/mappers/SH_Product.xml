@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 맵핑될 DAO 인터페이스의 Full name 을 줍니다. -->
+<mapper namespace="com.smart.hospital.rfid.dao.ProductDao">
+
+	    <select id="productProcess" parameterType="String" resultType="com.smart.hospital.rfid.vo.ProductVO">
+        SELECT PRODUCT_ID as id, PRODUCT_NAME as name, PRODUCT_AMOUNT as amount, TO_CHAR(PRODUCT_INPUT, 'YYYYMMDD') as inputDate, TO_CHAR(PRODUCT_OUTPUT, 'YYYYMMDD') as outputDate
+        FROM SH_PRODUCT
+        WHERE PRODUCT_ID = #{epc}
+    </select>
+    
+        <insert id="insert" parameterType="com.smart.hospital.rfid.vo.ProductVO">
+        INSERT INTO SH_PRODUCT(PRODUCT_ID, PRODUCT_NAME, PRODUCT_AMOUNT, PRODUCT_INPUT, PRODUCT_OUTPUT, PRODUCT_IMAGE)
+        VALUES
+            (#{id}, #{name}, #{amount}, TO_DATE(#{inputDate}, 'YYYYMMDD'), TO_DATE(#{outputDate}, 'YYYYMMDD'), #{image})
+    </insert>
+</mapper>

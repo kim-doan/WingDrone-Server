@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 맵핑될 DAO 인터페이스의 Full name 을 줍니다. -->
+<mapper namespace="com.smart.hospital.member.dao.MemberDAO">
+
+    <insert id="insert" parameterType="com.smart.hospital.member.vo.MemberVO">
+        INSERT INTO SH_MEMBER(SH_NO, SH_ID, SH_PWD, SH_NAME, SH_DATE, SH_GATEWAY, SH_GRADE, SH_PHONE, SH_AGE)
+        VALUES
+            (AUTO_NUM.nextval, #{id}, #{password}, #{name}, SYSDATE, 0, 'rookie', #{phone}, #{age})
+    </insert>
+	<select id="accountProcess" parameterType="com.smart.hospital.member.vo.MemberVO" resultType="com.smart.hospital.member.vo.MemberVO">
+		SELECT SH_ID as id
+		FROM SH_MEMBER
+		WHERE SH_ID like #{id}
+	</select>
+	    <select id="loginProcess" parameterType="com.smart.hospital.member.vo.MemberVO" resultType="com.smart.hospital.member.vo.MemberVO">
+        SELECT SH_ID as id, SH_PWD as password, SH_NAME as name, SH_GATEWAY as gateway, SH_GRADE as grade, SH_PHONE as phone 
+        FROM SH_MEMBER 
+        WHERE SH_ID = #{id} AND SH_PWD = #{password}
+    </select>
+    <select id="selectMemberList" resultType="com.smart.hospital.member.vo.MemberVO">
+        SELECT SH_NAME as name
+        , SH_ID as id
+        , SH_PHONE as phone
+        FROM SH_MEMBER
+    </select>
+
+    <select id="checkId" parameterType="com.smart.hospital.member.vo.MemberVO" resultType="java.lang.Integer">
+        SELECT NVL (COUNT(*), 0)
+        FROM SH_MEMBER WHERE SH_ID=#{id}
+    </select>
+</mapper>
